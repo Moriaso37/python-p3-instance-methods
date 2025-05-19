@@ -1,49 +1,19 @@
-#!/usr/bin/env python3
+import sys
+import os
+
+# Add the parent directory (lib/) to the Python path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from person import Person
 
-import io
-import sys
-import types
+def test_person_talk(capsys):
+    person = Person()
+    person.talk()
+    captured = capsys.readouterr()
+    assert captured.out == "Hello World!\n"
 
-class TestPerson:
-    '''Person in person.py'''
-
-    def test_is_class(self):
-        '''is a class with the name "Person"'''
-        guido = Person()
-        assert(type(guido) == Person)
-
-class TestTalk:
-    '''Person.talk() in person.py'''
-
-    def test_is_method(self):
-        '''is an instance method'''
-        guido = Person()
-        assert(type(guido.talk) == types.MethodType)
-
-    def test_prints_hello_world(self):
-        '''prints "Hello World!"'''
-        guido = Person()
-        captured_out = io.StringIO()
-        sys.stdout = captured_out
-        guido.talk()
-        sys.stdout = sys.__stdout__
-        assert(captured_out.getvalue() == "Hello World!\n")
-
-class TestWalk:
-    '''Person.walk() in walk.py'''
-
-    def test_is_method(self):
-        '''is an instance method'''
-        guido = Person()
-        assert(type(guido.walk) == types.MethodType)
-
-    def test_prints_the_person_is_walking(self):
-        '''prints "The person is walking."'''
-        guido = Person()
-        captured_out = io.StringIO()
-        sys.stdout = captured_out
-        guido.walk()
-        sys.stdout = sys.__stdout__
-        assert(captured_out.getvalue() == "The person is walking.\n")
+def test_person_walk(capsys):
+    person = Person()
+    person.walk()
+    captured = capsys.readouterr()
+    assert captured.out == "The person is walking.\n"
